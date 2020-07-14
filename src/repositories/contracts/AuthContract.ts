@@ -13,7 +13,7 @@ class SignInRequestData implements AuthCredentialsEntity {
   }
 }
 
-interface SignInResponseData {
+type SignInResponseData = {
   id: string;
   name: string;
 }
@@ -26,7 +26,7 @@ class SignOutRequestData {
   }
 }
 
-interface SignOutResponseData {
+type SignOutResponseData = {
   success: boolean;
 }
 

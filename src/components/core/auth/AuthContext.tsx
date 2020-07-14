@@ -1,23 +1,27 @@
-import React, { useState, useContext, useMemo, ReactChildren } from 'react';
-import { authService } from '../../services/AuthService';
-import { AuthCredentials } from '../../models/AuthModels';
-import { UserModel } from '../../models/UserModels';
-import { DataValidatorError } from '../../services/DataValidator';
+import React, { ReactNode, createContext, useState, useContext, useMemo } from 'react';
+import { authService } from '../../../services/AuthService';
+import { userService } from '../../../services/UserService';
+import { AuthCredentials } from '../../../models/AuthModels';
+import { UserModel } from '../../../models/UserModels';
+import { DataValidatorError } from '../../../services/DataValidator';
+import { useInitialAuthCheck, AuthCheckStatus } from './hooks';
 
 type AuthContextData = {
+  authCheckStatus: AuthCheckStatus;
   isAuth: boolean;
   signIn: (authCredentials: AuthCredentials) => Promise<UserModel | Array<DataValidatorError> | Error | null>;
   signOut: (userId: string) => Promise<boolean>;
 }
 
 type Props = {
-  children: React.ReactNode
+  children: ReactNode
 };
 
-const AuthContext = React.createContext<AuthContextData | null>(null);
+const AuthContext = createContext<AuthContextData | null>(null);
 
 const AuthProvider = ({children}: Props) => {
   const [userData, setUserData] = useState<UserModel | null>(null);
+  const authCheckStatus = useInitialAuthCheck(setUserData, userService);
   const isAuth = useMemo<boolean>(() => !!userData, [userData]);
 
   const signIn = async (authCredentials: AuthCredentials): Promise<UserModel | Array<DataValidatorError> | Error | null> => {
@@ -34,13 +38,13 @@ const AuthProvider = ({children}: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{isAuth, signIn, signOut}}
+      value={{isAuth, authCheckStatus, signIn, signOut}}
     >
       {children}
     </AuthContext.Provider>
   )
 }
 
-const useTheme = () => useContext(AuthContext);
+const useAuth = () => useContext(AuthContext);
 
-export { AuthProvider, useTheme }
+export { AuthProvider, useAuth }
