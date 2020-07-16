@@ -18,8 +18,6 @@ class AuthRepository {
 const authRepository = new AuthRepository();
 
 export {
-  authRepository
-}
-export type {
+  authRepository,
   AuthRepository
 }

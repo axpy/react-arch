@@ -33,7 +33,6 @@ html {
 }
 
 body {
-  opacity: 0;
   font-family: NotoSans, sans-serif;
   font-size: 1.8rem;
 

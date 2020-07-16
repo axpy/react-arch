@@ -1,7 +1,7 @@
 import { AuthCredentialsEntity } from "../../entities/AuthEntities";
 import { AuthCredentials } from "../../models/AuthModels";
 
-class SignInRequestData implements AuthCredentialsEntity {
+export class SignInRequestData implements AuthCredentialsEntity {
   readonly userName: string;
   readonly password: string;
   readonly rememberMe: boolean;
@@ -13,12 +13,12 @@ class SignInRequestData implements AuthCredentialsEntity {
   }
 }
 
-type SignInResponseData = {
+export type SignInResponseData = {
   id: string;
   name: string;
 }
 
-class SignOutRequestData {
+export class SignOutRequestData {
   readonly id: string;
 
   constructor(id: string) {
@@ -26,15 +26,13 @@ class SignOutRequestData {
   }
 }
 
-type SignOutResponseData = {
+export type SignOutResponseData = {
   success: boolean;
 }
 
-export {
-  SignInRequestData,
-  SignOutRequestData
-};
-export type {
-  SignInResponseData,
-  SignOutResponseData
-};
+// export {
+//   SignInRequestData,
+//   SignOutRequestData
+// };
+
+// export type {

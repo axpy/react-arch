@@ -23,9 +23,6 @@ class UserService {
 const userService = new UserService(userRepository);
 
 export {
-  userService
-}
-
-export type {
+  userService,
   UserService
 }

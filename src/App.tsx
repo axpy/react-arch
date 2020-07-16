@@ -6,11 +6,10 @@ import MainRouter from './components/core/MainRouter';
 function App() {
   return (
     <div className="App">
-      <GeneralStyles>
-        <AuthProvider>
-          <MainRouter/>
-        </AuthProvider>
-      </GeneralStyles>
+      <GeneralStyles/>
+      <AuthProvider>
+        <MainRouter/>
+      </AuthProvider>
     </div>
   );
 }

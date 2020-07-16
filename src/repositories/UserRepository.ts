@@ -11,8 +11,6 @@ class UserRepository {
 const userRepository = new UserRepository();
 
 export {
-  userRepository
-}
-export type {
+  userRepository,
   UserRepository
 }

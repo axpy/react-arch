@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { UserService } from "../../../services/UserService";
 import { UserModel } from "../../../models/UserModels";
 
-type AuthCheckStatus = {
+export type AuthCheckStatus = {
   isAuthChecked: boolean,
   isAuthCheckInProcess: boolean
 }
@@ -34,7 +34,7 @@ function useInitialAuthCheck(
       isAuthCheckInProcess: true,
     })
     getUserInfo();
-  }, []);
+  }, [userService, setUserData]);
 
   return authCheckStatus;
 }
@@ -43,6 +43,6 @@ export {
   useInitialAuthCheck
 }
 
-export type {
-  AuthCheckStatus
-}
+// export type {
+//   AuthCheckStatus
+// }

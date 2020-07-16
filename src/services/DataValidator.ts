@@ -1,13 +1,13 @@
-interface DataValidator {
+export interface DataValidator {
   validate: Function;
   isValid: boolean;
 }
 
-interface DataValidatorAsync extends DataValidator {
+export interface DataValidatorAsync extends DataValidator {
   isLoading: boolean;
 }
 
-interface DataValidatorError {
+export interface DataValidatorError {
   fieldName: string;
   fieldValue: string;
   errorText: string;
@@ -25,8 +25,8 @@ interface DataValidatorError {
 //   }
 // }
 
-export type {
-  DataValidator,
-  DataValidatorAsync,
-  DataValidatorError
-};
+// export type {
+//   DataValidator,
+//   DataValidatorAsync,
+//   DataValidatorError
+// };

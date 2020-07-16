@@ -4,11 +4,12 @@ import { userService } from '../../../services/UserService';
 import { AuthCredentials } from '../../../models/AuthModels';
 import { UserModel } from '../../../models/UserModels';
 import { DataValidatorError } from '../../../services/DataValidator';
-import { useInitialAuthCheck, AuthCheckStatus } from './hooks';
+import { useInitialAuthCheck } from './hooks';
 
 type AuthContextData = {
-  authCheckStatus: AuthCheckStatus;
   isAuth: boolean;
+  isAuthChecked: boolean;
+  isAuthCheckInProcess: boolean;
   signIn: (authCredentials: AuthCredentials) => Promise<UserModel | Array<DataValidatorError> | Error | null>;
   signOut: (userId: string) => Promise<boolean>;
 }
@@ -38,7 +39,13 @@ const AuthProvider = ({children}: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{isAuth, authCheckStatus, signIn, signOut}}
+      value={{
+        isAuth,
+        isAuthChecked: authCheckStatus.isAuthChecked,
+        isAuthCheckInProcess: authCheckStatus.isAuthCheckInProcess,
+        signIn,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>
