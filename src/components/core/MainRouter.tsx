@@ -11,6 +11,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MainFrame from "./MainFrame";
 import MainLoader from "../MainLoader";
+import ApprovedItems from "../pages/ApprovedItems";
 
 type RouterRoute = {
   path: string,
@@ -25,6 +26,10 @@ const authRoutes: Array<RouterRoute> = [
   {
     path: '/',
     component: <Home/>
+  },
+  {
+    path: '/approved-items',
+    component: <ApprovedItems/>
   },
 ];
 

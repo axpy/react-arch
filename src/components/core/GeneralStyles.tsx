@@ -7,6 +7,10 @@ html {
 	height: 100%;
 }
 
+.active {
+  background-color: fuchsia;
+}
+
 *,
 *:before,
 *:after {
