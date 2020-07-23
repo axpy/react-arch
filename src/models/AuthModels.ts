@@ -16,6 +16,12 @@ class AuthCredentials implements AuthCredentialsEntity {
   }
 }
 
+export type SignInData = {
+  userName: string;
+  password: string;
+  rememberMe: boolean;
+}
+
 export {
   AuthCredentials
 };

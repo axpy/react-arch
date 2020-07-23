@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserService } from "../../../services/UserService";
+import { userService } from "../../../services/UserService";
 import { UserModel } from "../../../models/UserModels";
 
 export type AuthCheckStatus = {
@@ -7,15 +7,19 @@ export type AuthCheckStatus = {
   isAuthCheckInProcess: boolean
 }
 
-function useInitialAuthCheck(
-  setUserData: (userData: UserModel | null) => void,
-  userService: UserService
-) {
-
-  const [authCheckStatus, setAuthCheckStatus] = useState<AuthCheckStatus>({
+const authCheckStatuses = {
+  inProcess: {
     isAuthChecked: false,
+    isAuthCheckInProcess: true
+  },
+  complete: {
+    isAuthChecked: true,
     isAuthCheckInProcess: false
-  });
+  },
+};
+
+function useInitialAuthCheck(setUserData: (userData: UserModel | null) => void) {
+  const [authCheckStatus, setAuthCheckStatus] = useState<AuthCheckStatus>(authCheckStatuses.inProcess);
 
   useEffect(() => {
     async function getUserInfo() {
@@ -24,17 +28,12 @@ function useInitialAuthCheck(
         setUserData(payload);
       }
 
-      setAuthCheckStatus({
-        isAuthChecked: true,
-        isAuthCheckInProcess: false,
-      });
+      setAuthCheckStatus(authCheckStatuses.complete);
     }
-    setAuthCheckStatus({
-      isAuthChecked: false,
-      isAuthCheckInProcess: true,
-    })
+
+    setAuthCheckStatus(authCheckStatuses.inProcess)
     getUserInfo();
-  }, [userService, setUserData]);
+  }, [setUserData]);
 
   return authCheckStatus;
 }
@@ -42,7 +41,3 @@ function useInitialAuthCheck(
 export {
   useInitialAuthCheck
 }
-
-// export type {
-//   AuthCheckStatus
-// }
