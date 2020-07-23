@@ -1,26 +1,22 @@
-import { AuthCredentials, SignInData } from "../models/AuthModels";
-import { authRepository, AuthRepository } from "../repositories/AuthRepository";
-import { DataValidatorError } from "./DataValidator";
+import { AuthCredentials } from "../models/AuthModels";
+import { authRepository } from "../repositories/AuthRepository";
+import { DataValidatorError, DataValidator } from "./DataValidator";
 import { SignInRequestData, SignOutRequestData } from "../repositories/contracts/AuthContract";
 import { BinaryResult as BR } from "../models/Common";
 import { UserModel } from "../models/UserModels";
 import { AbstractService } from "./AbstractService";
+import { SignInDto } from "../models/dto/AuthDto";
 
 const SIGN_OUT_FAILED = 'Sign out failed';
 
 class AuthService extends AbstractService {
-  private authRepository: AuthRepository;
+  private authRepository = authRepository;
 
-  constructor(authRepository: AuthRepository) {
-    super();
-    this.authRepository = authRepository;
-  }
-
-  async signIn(authCredentials: SignInData): Promise<BR<UserModel | Array<DataValidatorError> | Error>> {
-    const authCredentialsValidator = new AuthCredentialsValidator(authCredentials);
+  async signIn(signInData: SignInDto): Promise<BR<UserModel | Array<DataValidatorError> | Error>> {
+    const authCredentialsValidator = new AuthCredentialsValidator(signInData);
     try {
       if (authCredentialsValidator.isValid) {
-        const signInRequestData = new SignInRequestData(authCredentials);
+        const signInRequestData = new SignInRequestData(signInData);
         const {id, name} = await this.authRepository.signIn(signInRequestData);
         const user = new UserModel(id, name);
         localStorage.setItem('auth', 'auth');
@@ -30,7 +26,7 @@ class AuthService extends AbstractService {
         return this.result<Array<DataValidatorError>>(false, authCredentialsValidator.errorsList);
       }
     } catch (error) {
-      return new BR(false, error);
+      return this.result(false, error);
     }
   }
 
@@ -39,6 +35,7 @@ class AuthService extends AbstractService {
       const signOutRequestData = new SignOutRequestData(userId);
       const {success} = await this.authRepository.signOut(signOutRequestData);
       if (success) {
+        localStorage.removeItem('auth');
         return this.result(true);
       } else {
         throw new Error(SIGN_OUT_FAILED)
@@ -53,7 +50,7 @@ class AuthService extends AbstractService {
   }
 }
 
-class AuthCredentialsValidator {
+class AuthCredentialsValidator implements DataValidator {
   readonly authCredentials: AuthCredentials;
   public errorsList: Array<DataValidatorError> = [];
   public isValid: boolean = false;
@@ -63,12 +60,14 @@ class AuthCredentialsValidator {
     this.validate();
   }
 
-  private validate() {
-    this.isValid = true;
+  validate() {
+    const result = true;
+    this.isValid = result;
+    return result;
   }
 }
 
-const authService = new AuthService(authRepository);
+const authService = new AuthService();
 
 export {
   authService,

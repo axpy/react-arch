@@ -7,21 +7,11 @@ import { AuthService, authService } from "./AuthService";
 const USER_DATA_EMPTY = 'User data is empty';
 
 class UserService extends AbstractService {
-  private userRepository: UserRepository;
-  private authService: AuthService;
-
-  constructor(
-    userRepository: UserRepository,
-    authService: AuthService
-  ) {
-    super();
-    this.userRepository = userRepository;
-    this.authService = authService;
-  }
+  private userRepository: UserRepository = userRepository;
+  private authService: AuthService = authService;
 
   async getUserInfo(): Promise<BR<UserModel | Error>> {
     try {
-      debugger
       if (!this.authService.isUserWasSignedIn()) throw new Error(USER_DATA_EMPTY)
       const {id, name} = await this.userRepository.getUserInfo();
       const userModel = new UserModel(id, name);
@@ -32,7 +22,7 @@ class UserService extends AbstractService {
   }
 }
 
-const userService = new UserService(userRepository, authService);
+const userService = new UserService();
 
 export {
   userService,

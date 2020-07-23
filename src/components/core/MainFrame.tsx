@@ -13,15 +13,20 @@ const MainFrame = ({children}: Props) => {
     <div className="main-frame">
       <header>
         <p>header</p>
-        <ul>
-          <li>
+        <ul style={{display: 'flex'}}>
+          <li style={{marginRight: '5px'}}>
             <NavLink to="/" exact>
               Home
             </NavLink>
           </li>
-          <li>
+          <li style={{marginRight: '5px'}}>
             <NavLink to="/about">
               About
+            </NavLink>
+          </li>
+          <li style={{marginRight: '5px'}}>
+            <NavLink to="/approved-items">
+              Approved items
             </NavLink>
           </li>
         </ul>
