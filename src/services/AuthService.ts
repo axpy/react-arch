@@ -1,5 +1,5 @@
 import { AuthCredentials } from "../models/AuthModels";
-import { authRepository } from "../repositories/AuthRepository";
+import { AuthRepository } from "../repositories";
 import { DataValidatorError, DataValidator } from "./DataValidator";
 import { SignInRequestData, SignOutRequestData } from "../repositories/contracts/AuthContract";
 import { BinaryResult as BR } from "../models/Common";
@@ -10,7 +10,12 @@ import { SignInDto } from "../models/dto/AuthDto";
 const SIGN_OUT_FAILED = 'Sign out failed';
 
 class AuthService extends AbstractService {
-  private authRepository = authRepository;
+  private authRepository: AuthRepository;
+
+  constructor(authRepository: AuthRepository) {
+    super();
+    this.authRepository = authRepository
+  }
 
   async signIn(signInData: SignInDto): Promise<BR<UserModel | Array<DataValidatorError> | Error>> {
     const authCredentialsValidator = new AuthCredentialsValidator(signInData);
@@ -50,6 +55,7 @@ class AuthService extends AbstractService {
   }
 }
 
+// Placeholder for future validator implementation
 class AuthCredentialsValidator implements DataValidator {
   readonly authCredentials: AuthCredentials;
   public errorsList: Array<DataValidatorError> = [];
@@ -67,9 +73,6 @@ class AuthCredentialsValidator implements DataValidator {
   }
 }
 
-const authService = new AuthService();
-
 export {
-  authService,
   AuthService
 }
