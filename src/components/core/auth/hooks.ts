@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { userService } from "../../../services/UserService";
 import { UserModel } from "../../../models/UserModels";
+import { useService } from "../services/ServicesContext";
 
 export type AuthCheckStatus = {
   isAuthChecked: boolean,
@@ -19,6 +19,7 @@ const authCheckStatuses = {
 };
 
 function useInitialAuthCheck(setUserData: (userData: UserModel | null) => void) {
+  const { userService } = useService()!;
   const [authCheckStatus, setAuthCheckStatus] = useState<AuthCheckStatus>(authCheckStatuses.inProcess);
 
   useEffect(() => {

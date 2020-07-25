@@ -51,9 +51,6 @@ class ApprovedItemsRepository {
   }
 }
 
-const approvedItemsRepository = new ApprovedItemsRepository();
-
 export {
-  approvedItemsRepository,
   ApprovedItemsRepository
-}
+};

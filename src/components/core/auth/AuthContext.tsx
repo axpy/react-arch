@@ -1,9 +1,9 @@
 import React, { ReactNode, createContext, useState, useContext, useMemo } from 'react';
-import { authService } from '../../../services/AuthService';
 import { AuthCredentials } from '../../../models/AuthModels';
 import { UserModel } from '../../../models/UserModels';
 import { DataValidatorError } from '../../../services/DataValidator';
 import { useInitialAuthCheck } from './hooks';
+import { useService } from '../services/ServicesContext';
 
 type AuthContextData = {
   isAuth: boolean;
@@ -20,6 +20,7 @@ type Props = {
 const AuthContext = createContext<AuthContextData | null>(null);
 
 const AuthProvider = ({children}: Props) => {
+  const { authService } = useService()!;
   const [userData, setUserData] = useState<UserModel | null>(null);
   const authCheckStatus = useInitialAuthCheck(setUserData);
   const isAuth = useMemo<boolean>(() => !!userData, [userData]);
@@ -44,7 +45,7 @@ const AuthProvider = ({children}: Props) => {
         isAuthChecked: authCheckStatus.isAuthChecked,
         isAuthCheckInProcess: authCheckStatus.isAuthCheckInProcess,
         signIn,
-        signOut,
+        signOut
       }}
     >
       {children}

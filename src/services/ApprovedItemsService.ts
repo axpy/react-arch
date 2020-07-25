@@ -1,9 +1,14 @@
 import { AbstractService } from "./AbstractService";
-import { approvedItemsRepository } from "../repositories/ApprovedItemsRepository";
+import { ApprovedItemsRepository } from "../repositories/ApprovedItemsRepository";
 import { ApprovedItemsCategoryDto, ApprovedItemsItemDto } from "../models/dto/ApprovedItems";
 
 class ApprovedItemsService extends AbstractService {
-  private approvedItemsRepository = approvedItemsRepository;
+  private approvedItemsRepository: ApprovedItemsRepository;
+
+  constructor(approvedItemsRepository: ApprovedItemsRepository) {
+    super();
+    this.approvedItemsRepository = approvedItemsRepository;
+  }
 
   async getAllCategories() {
     const categories = await this.approvedItemsRepository.fetchAllCategories();
@@ -16,8 +21,6 @@ class ApprovedItemsService extends AbstractService {
   }
 }
 
-const approvedItemsService = new ApprovedItemsService();
-
 export {
-  approvedItemsService
+  ApprovedItemsService
 }

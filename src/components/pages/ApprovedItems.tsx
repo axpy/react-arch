@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { approvedItemsService } from '../../services/ApprovedItemsService';
 import { ApprovedItemsCategoryDto, ApprovedItemsItemDto } from '../../models/dto/ApprovedItems';
+import { useService } from '../core/services/ServicesContext';
 
 type CategoryItemsMap = {
   [K: string]: Array<ApprovedItemsItemDto>
 }
 
 const ApprovedItems = () => {
+  const { approvedItemsService } = useService()!;
   const [categories, setCategories] = useState<Array<ApprovedItemsCategoryDto>>([]);
   const [categoryItemsMap, setCategoryItemsMap] = useState<CategoryItemsMap>({});
   const [currentCategory, setCurrentCategory] = useState<ApprovedItemsCategoryDto | null>(null);

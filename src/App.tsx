@@ -1,15 +1,23 @@
 import React from 'react';
 import GeneralStyles from './components/core/GeneralStyles';
-import { AuthProvider } from './components/core/auth/AuthContext';
 import MainRouter from './components/core/MainRouter';
+import { AuthProvider } from './components/core/auth/AuthContext';
+import { ServicesProvider } from './components/core/services/ServicesContext';
+import { ServicesList } from './services/servicesInitializator';
 
-function App() {
+type Props = {
+  services: ServicesList
+}
+
+function App({services}: Props) {
   return (
     <div className="App">
       <GeneralStyles/>
-      <AuthProvider>
-        <MainRouter/>
-      </AuthProvider>
+      <ServicesProvider services={services}>
+        <AuthProvider>
+          <MainRouter/>
+        </AuthProvider>
+      </ServicesProvider>
     </div>
   );
 }

@@ -1,14 +1,20 @@
 import { BinaryResult as BR } from "../models/Common";
 import { UserModel } from "../models/UserModels";
-import { UserRepository, userRepository } from "../repositories/UserRepository";
+import { UserRepository } from "../repositories";
 import { AbstractService } from "./AbstractService";
-import { AuthService, authService } from "./AuthService";
+import { AuthService } from ".";
 
 const USER_DATA_EMPTY = 'User data is empty';
 
 class UserService extends AbstractService {
-  private userRepository: UserRepository = userRepository;
-  private authService: AuthService = authService;
+  private userRepository: UserRepository;
+  private authService: AuthService;
+
+  constructor(userRepository: UserRepository, authService: AuthService) {
+    super();
+    this.userRepository = userRepository;
+    this.authService = authService;
+  }
 
   async getUserInfo(): Promise<BR<UserModel | Error>> {
     try {
@@ -22,9 +28,6 @@ class UserService extends AbstractService {
   }
 }
 
-const userService = new UserService();
-
 export {
-  userService,
   UserService
 }

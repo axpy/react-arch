@@ -15,9 +15,6 @@ class AuthRepository {
   }
 }
 
-const authRepository = new AuthRepository();
-
 export {
-  authRepository,
   AuthRepository
-}
+};
