@@ -1,27 +1,17 @@
-import { AuthCredentialsEntity } from "../entities/AuthEntities";
-
-class AuthCredentials implements AuthCredentialsEntity {
-  readonly userName: string;
-  readonly password: string;
-  readonly rememberMe: boolean;
-
-  constructor(
-    userName: string,
-    password: string,
-    rememberMe: boolean
-  ) {
-    this.userName = userName;
-    this.password = password;
-    this.rememberMe = rememberMe;
-  }
-}
+import { FormDataRules } from "../services/FormDataValidatorService"
 
 export type SignInData = {
-  userName: string;
   password: string;
+  userName: string;
   rememberMe: boolean;
 }
 
-export {
-  AuthCredentials
-};
+export type SignInDataValueMap = {
+  password: string;
+  userName: string;
+}
+
+export type SignInDataRulesMap = {
+  password: [FormDataRules.REQUIRED];
+  userName: [FormDataRules.REQUIRED];
+}

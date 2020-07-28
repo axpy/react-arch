@@ -1,7 +1,6 @@
 import React, { ReactNode, createContext, useState, useContext, useMemo } from 'react';
-import { AuthCredentials } from '../../../models/AuthModels';
+import { SignInData } from '../../../models/AuthModels';
 import { UserModel } from '../../../models/UserModels';
-import { DataValidatorError } from '../../../services/DataValidator';
 import { useInitialAuthCheck } from './hooks';
 import { useService } from '../services/ServicesContext';
 
@@ -9,7 +8,7 @@ type AuthContextData = {
   isAuth: boolean;
   isAuthChecked: boolean;
   isAuthCheckInProcess: boolean;
-  signIn: (authCredentials: AuthCredentials) => Promise<UserModel | Array<DataValidatorError> | Error | null>;
+  signIn: (signInData: SignInData) => Promise<UserModel | Error | null>;
   signOut: (userId: string) => Promise<boolean>;
 }
 
@@ -25,9 +24,9 @@ const AuthProvider = ({children}: Props) => {
   const authCheckStatus = useInitialAuthCheck(setUserData);
   const isAuth = useMemo<boolean>(() => !!userData, [userData]);
 
-  const signIn = async (authCredentials: AuthCredentials): Promise<UserModel | Array<DataValidatorError> | Error | null> => {
-    const {success, payload} = await authService.signIn(authCredentials);
-    if (success && payload instanceof UserModel) setUserData(payload);
+  const signIn = async (signInData: SignInData): Promise<UserModel | Error | null> => {
+    const {success, payload} = await authService.signIn(signInData);
+    if (success && !(payload instanceof Error)) setUserData(payload);
 
     return payload;
   };

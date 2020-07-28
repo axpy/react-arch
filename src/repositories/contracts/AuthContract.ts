@@ -1,14 +1,6 @@
-import { AuthCredentialsEntity } from "../../entities/AuthEntities";
-import { AuthCredentials } from "../../models/AuthModels";
-
-export class SignInRequestData implements AuthCredentialsEntity {
-  readonly userName: string;
-  readonly password: string;
-
-  constructor(authCredentials: AuthCredentials) {
-    this.userName = authCredentials.userName;
-    this.password = authCredentials.password;
-  }
+export type SignInRequestData = {
+  userName: string;
+  password: string;
 }
 
 export type SignInResponseData = {
@@ -16,12 +8,8 @@ export type SignInResponseData = {
   name: string;
 }
 
-export class SignOutRequestData {
-  readonly id: string;
-
-  constructor(id: string) {
-    this.id = id;
-  }
+export type SignOutRequestData = {
+  id: string;
 }
 
 export type SignOutResponseData = {
