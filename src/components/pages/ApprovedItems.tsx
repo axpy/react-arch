@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { ApprovedItemsCategoryDto, ApprovedItemsItemDto } from '../../models/dto/ApprovedItems';
 import { useService } from '../core/services/ServicesContext';
+import { ApprovedItemsCategory, ApprovedItemsItem } from '../../models/ApprovedItemsModels';
 
 type CategoryItemsMap = {
-  [K: string]: Array<ApprovedItemsItemDto>
+  [K: string]: Array<ApprovedItemsItem>
 }
 
 const ApprovedItems = () => {
   const { approvedItemsService } = useService()!;
-  const [categories, setCategories] = useState<Array<ApprovedItemsCategoryDto>>([]);
+  const [categories, setCategories] = useState<Array<ApprovedItemsCategory>>([]);
   const [categoryItemsMap, setCategoryItemsMap] = useState<CategoryItemsMap>({});
-  const [currentCategory, setCurrentCategory] = useState<ApprovedItemsCategoryDto | null>(null);
-  const [items, setItems] = useState<Array<ApprovedItemsItemDto>>([]);
+  const [currentCategory, setCurrentCategory] = useState<ApprovedItemsCategory | null>(null);
+  const [items, setItems] = useState<Array<ApprovedItemsItem>>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -24,7 +24,7 @@ const ApprovedItems = () => {
     fetchCategories();
   }, [])
 
-  const selectCategory = async (category: ApprovedItemsCategoryDto) => {
+  const selectCategory = async (category: ApprovedItemsCategory) => {
     setCurrentCategory(category);
     const cachedItems = categoryItemsMap[category.id];
     if (cachedItems) {

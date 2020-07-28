@@ -9,7 +9,7 @@ type Props = {
   services: ServicesList
 }
 
-function App({services}: Props) {
+const App = ({services}: Props) => {
   return (
     <div className="App">
       <GeneralStyles/>

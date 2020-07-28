@@ -13,7 +13,8 @@ const ServicesProvider = ({
   services: {
     authService,
     userService,
-    approvedItemsService
+    approvedItemsService,
+    formDataValidatorService
   }
 }: Props) => {
   return (
@@ -21,7 +22,8 @@ const ServicesProvider = ({
       value={{
         authService,
         userService,
-        approvedItemsService
+        approvedItemsService,
+        formDataValidatorService
       }}
     >
       {children}

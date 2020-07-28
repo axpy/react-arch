@@ -5,7 +5,12 @@ import {
   SignOutResponseData
 } from "./contracts/AuthContract";
 
-class AuthRepository {
+export interface AuthRepository {
+  signIn(signInRequestData: SignInRequestData): Promise<SignInResponseData>;
+  signOut(signOutRequestData: SignOutRequestData): Promise<SignOutResponseData>;
+}
+
+export class AuthRepositoryImpl {
   public async signIn(signInRequestData: SignInRequestData): Promise<SignInResponseData> {
     return {id: '1', name: 'Josh'};
   }
@@ -14,7 +19,3 @@ class AuthRepository {
     return {success: true};
   }
 }
-
-export {
-  AuthRepository
-};

@@ -25,7 +25,7 @@ function useInitialAuthCheck(setUserData: (userData: UserModel | null) => void) 
   useEffect(() => {
     async function getUserInfo() {
       const {success, payload} = await userService.getUserInfo()
-      if (success && payload instanceof UserModel) {
+      if (success && !(payload instanceof Error)) {
         setUserData(payload);
       }
 

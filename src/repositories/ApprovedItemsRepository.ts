@@ -1,7 +1,12 @@
-import { ApprovedItemsCategoryDto, ApprovedItemsItemDto } from "../models/dto/ApprovedItems";
+import { ApprovedItemsCategory, ApprovedItemsItem } from "../models/ApprovedItemsModels";
 
-class ApprovedItemsRepository {
-  public async fetchAllCategories(): Promise<Array<ApprovedItemsCategoryDto>> {
+export interface ApprovedItemsRepository {
+  fetchAllCategories(): Promise<Array<ApprovedItemsCategory>>;
+  fetchItemsByCategory(categoryId: string): Promise<Array<ApprovedItemsItem>>;
+}
+
+export class ApprovedItemsRepositoryImpl {
+  public async fetchAllCategories(): Promise<Array<ApprovedItemsCategory>> {
     return [
       {name: 'a', id: 'a'},
       {name: 'bb', id: 'bb'},
@@ -23,7 +28,7 @@ class ApprovedItemsRepository {
     ]
   }
 
-  public async fetchItemsByCategory(categoryId: string): Promise<Array<ApprovedItemsItemDto>> {
+  public async fetchItemsByCategory(categoryId: string): Promise<Array<ApprovedItemsItem>> {
     const map: any = {
       aas: [
         {name: 'kek'},
@@ -50,7 +55,3 @@ class ApprovedItemsRepository {
     return items ? items : []; 
   }
 }
-
-export {
-  ApprovedItemsRepository
-};
