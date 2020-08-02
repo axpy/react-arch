@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserModel } from "../../../models/UserModels";
+import { UserInfo } from "../../../models/UserModels";
 import { useService } from "../services/ServicesContext";
 
 export type AuthCheckStatus = {
@@ -18,15 +18,15 @@ const authCheckStatuses = {
   },
 };
 
-function useInitialAuthCheck(setUserData: (userData: UserModel | null) => void) {
+function useInitialAuthCheck(setUserData: (userData: UserInfo | null) => void) {
   const { userService } = useService()!;
   const [authCheckStatus, setAuthCheckStatus] = useState<AuthCheckStatus>(authCheckStatuses.inProcess);
 
   useEffect(() => {
     async function getUserInfo() {
-      const {success, payload} = await userService.getUserInfo()
-      if (success && !(payload instanceof Error)) {
-        setUserData(payload);
+      const userInfo = await userService.getUserInfo()
+      if (!(userInfo instanceof Error)) {
+        setUserData(userInfo);
       }
 
       setAuthCheckStatus(authCheckStatuses.complete);

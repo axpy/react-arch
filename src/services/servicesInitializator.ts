@@ -35,7 +35,7 @@ function initializeServices(mode: ServiceInitializeMode = ServiceInitializeMode.
   const formDataValidatorService = new FormDataValidatorServiceImpl();
   const authService = new AuthServiceImpl(authRepository);
   const approvedItemsService = new ApprovedItemsServiceImpl(approvedItemsRepository);
-  const userService = new UserServiceImpl(authService, userRepository);
+  const userService = new UserServiceImpl(userRepository);
 
   return {
     authService,

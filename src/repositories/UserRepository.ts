@@ -1,16 +1,19 @@
-import { BinaryResult as BR } from "../models/Common";
-
-import {
-  GetUserInfoResponseData,
-} from "./contracts/UserContract";
-import { AbstractService } from "../services/AbstractService";
+// import {httpClient} from './HttpClient';
+import { UserInfo } from "../models/UserModels";
 
 export interface UserRepository {
-  getUserInfo(): Promise<BR<GetUserInfoResponseData>>;
+  getUserInfo(): Promise<UserInfo | Error>;
 }
 
-export class UserRepositoryImpl extends AbstractService implements UserRepository {
-  public async getUserInfo(): Promise<BR<GetUserInfoResponseData>> {
-    return this.result(true, {id: '1', name: 'Josh'});
+export class UserRepositoryImpl implements UserRepository {
+  // private baseUrl = '/user'
+
+  public async getUserInfo(): Promise<UserInfo | Error> {
+    try {
+      // const response = await httpClient.get(`${this.baseUrl}/userInfo`);
+      return {id: '1', name: 'Josh'}
+    } catch (error) {
+      return new Error(error);
+    }
   }
 }
