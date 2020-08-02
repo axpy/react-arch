@@ -1,54 +1,44 @@
 import { AuthRepository } from "../repositories";
-import { SignInRequestData, SignOutRequestData } from "../repositories/contracts/AuthContract";
-import { BinaryResult as BR } from "../models/Common";
-import { UserModel } from "../models/UserModels";
-import { AbstractService } from "./AbstractService";
+import { UserInfo } from "../models/UserModels";
 import { SignInData } from "../models/AuthModels";
 
-const SIGN_OUT_FAILED = 'Sign out failed';
-
 export interface AuthService {
-  signIn(signInData: SignInData): Promise<BR<UserModel | Error>>;
-  signOut(userId: string): Promise<BR<null | Error>>;
+  signIn(signInData: SignInData): Promise<UserInfo | Error>;
+  signOut(userId: string): Promise<boolean | Error>;
   isUserWasSignedIn(): boolean;
 }
 
-export class AuthServiceImpl extends AbstractService implements AuthService {
+export class AuthServiceImpl implements AuthService {
   private authRepository: AuthRepository;
 
   constructor(authRepository: AuthRepository) {
-    super();
     this.authRepository = authRepository
   }
 
-  async signIn(signInData: SignInData): Promise<BR<UserModel | Error>> {
+  async signIn(signInData: SignInData): Promise<UserInfo | Error> {
     try {
-      const signInRequestData: SignInRequestData = {
-        password: signInData.password,
-        userName: signInData.userName
-      };
-      const {id, name} = await this.authRepository.signIn(signInRequestData);
-      const user: UserModel = {id, name};
-      localStorage.setItem('auth', 'auth');
+      const userInfo = await this.authRepository.signIn(signInData);
+      if (!(userInfo instanceof Error)) {
+        localStorage.setItem('auth', 'auth');
+      }
 
-      return this.result<UserModel>(true, user);
+      return userInfo;
     } catch (error) {
-      return this.result(false, error);
+      return error;
     }
   }
 
-  async signOut(userId: string): Promise<BR<null | Error>> {
+  async signOut(userId: string): Promise<boolean | Error> {
     try {
-      const signOutRequestData: SignOutRequestData = {id: userId};
-      const {success} = await this.authRepository.signOut(signOutRequestData);
+      const success = await this.authRepository.signOut(userId);
       if (success) {
         localStorage.removeItem('auth');
-        return this.result(true);
-      } else {
-        throw new Error(SIGN_OUT_FAILED)
+        return true
       }
+
+      return false;
     } catch (error) {
-      return this.result(false, error);
+      return error;
     }
   }
 
