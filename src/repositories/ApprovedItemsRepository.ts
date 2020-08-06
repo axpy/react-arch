@@ -1,13 +1,18 @@
 import { ApprovedItemsCategory, ApprovedItemsItem } from "../models/ApprovedItemsModels";
+import { randomBytes } from "crypto";
 
 export interface ApprovedItemsRepository {
   fetchAllCategories(): Promise<Array<ApprovedItemsCategory>>;
   fetchItemsByCategory(categoryId: string): Promise<Array<ApprovedItemsItem>>;
 }
 
+function time() {
+  return Math.floor(Math.random() * 1000) + 200
+}
+
 export class ApprovedItemsRepositoryImpl {
   public async fetchAllCategories(): Promise<Array<ApprovedItemsCategory>> {
-    return [
+    const categories = [
       {name: 'a', id: 'a'},
       {name: 'bb', id: 'bb'},
       {name: 'ac', id: 'ac'},
@@ -26,6 +31,10 @@ export class ApprovedItemsRepositoryImpl {
       {name: '0a211', id: '0a211'},
       {name: '0a21', id: '0a21'},
     ]
+
+    return new Promise(res => {
+      setTimeout(() => res(categories), time())
+    })
   }
 
   public async fetchItemsByCategory(categoryId: string): Promise<Array<ApprovedItemsItem>> {
@@ -52,6 +61,8 @@ export class ApprovedItemsRepositoryImpl {
 
     const items = map[categoryId];
     
-    return items ? items : []; 
+    return new Promise(res => {
+      setTimeout(() => res(items ? items : []), time())
+    })
   }
 }

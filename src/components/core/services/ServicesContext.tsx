@@ -14,7 +14,8 @@ const ServicesProvider = ({
     authService,
     userService,
     approvedItemsService,
-    formDataValidatorService
+    formDataValidatorService,
+    userStorageService
   }
 }: Props) => {
   return (
@@ -23,7 +24,8 @@ const ServicesProvider = ({
         authService,
         userService,
         approvedItemsService,
-        formDataValidatorService
+        formDataValidatorService,
+        userStorageService
       }}
     >
       {children}

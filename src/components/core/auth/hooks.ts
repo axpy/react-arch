@@ -19,22 +19,27 @@ const authCheckStatuses = {
 };
 
 function useInitialAuthCheck(setUserData: (userData: UserInfo | null) => void) {
-  const { userService } = useService()!;
+  const { userService, authService, userStorageService } = useService()!;
   const [authCheckStatus, setAuthCheckStatus] = useState<AuthCheckStatus>(authCheckStatuses.inProcess);
 
-  useEffect(() => {
-    async function getUserInfo() {
-      const userInfo = await userService.getUserInfo()
-      if (!(userInfo instanceof Error)) {
-        setUserData(userInfo);
-      }
-
-      setAuthCheckStatus(authCheckStatuses.complete);
+  const getUserInfo = async () => {
+    const userInfo = await userService.getUserInfo()
+    if (!(userInfo instanceof Error)) {
+      setUserData(userInfo);
+      userStorageService.setUserInfo(userInfo);
     }
 
-    setAuthCheckStatus(authCheckStatuses.inProcess)
-    getUserInfo();
-  }, [setUserData]);
+    setAuthCheckStatus(authCheckStatuses.complete);
+  }
+
+  useEffect(() => {
+    if (!authService.isUserWasSignedIn()) {
+      setAuthCheckStatus(authCheckStatuses.complete)
+    } else {
+      setAuthCheckStatus(authCheckStatuses.inProcess)
+      getUserInfo();
+    }
+  }, []);
 
   return authCheckStatus;
 }

@@ -9,10 +9,12 @@ import {
   ApprovedItemsService,
   UserService,
   FormDataValidatorService,
+  UserStorageService,
   AuthServiceImpl,
   UserServiceImpl,
   ApprovedItemsServiceImpl,
   FormDataValidatorServiceImpl,
+  UserStorageServiceImpl
 } from '.'
 
 enum ServiceInitializeMode {
@@ -25,6 +27,7 @@ export type ServicesList = {
   userService: UserService;
   approvedItemsService: ApprovedItemsService;
   formDataValidatorService: FormDataValidatorService;
+  userStorageService: UserStorageService
 }
 
 function initializeServices(mode: ServiceInitializeMode = ServiceInitializeMode.PROD): ServicesList {
@@ -32,16 +35,19 @@ function initializeServices(mode: ServiceInitializeMode = ServiceInitializeMode.
   const approvedItemsRepository = new ApprovedItemsRepositoryImpl();
   const userRepository = new UserRepositoryImpl();
 
+  const userStorageService = new UserStorageServiceImpl();
+
   const formDataValidatorService = new FormDataValidatorServiceImpl();
   const authService = new AuthServiceImpl(authRepository);
   const approvedItemsService = new ApprovedItemsServiceImpl(approvedItemsRepository);
-  const userService = new UserServiceImpl(userRepository);
+  const userService = new UserServiceImpl(userStorageService, userRepository);
 
   return {
     authService,
     approvedItemsService,
     userService,
-    formDataValidatorService
+    formDataValidatorService,
+    userStorageService
   }
 }
 

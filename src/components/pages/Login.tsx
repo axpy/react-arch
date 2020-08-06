@@ -1,14 +1,22 @@
 import React from 'react';
-import { useAuth } from '../core/auth/AuthContext';
+import styled from 'styled-components';
+import LoginFormWindow from './LoginFormWindow';
+
+const LoginPageStyled = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: var(--c-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 const LoginPage = () => {
-  const {signIn} = useAuth()!;
 
   return (
-    <div className="login-page">
-      <h1>Login page</h1>
-      <button onClick={() => signIn({password: '', rememberMe: true, userName: ''})}>login</button>
-    </div>
+    <LoginPageStyled className="login-page">
+      <LoginFormWindow />
+    </LoginPageStyled>
   );
 }
 

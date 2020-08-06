@@ -12,6 +12,7 @@ import Login from "../pages/Login";
 import MainFrame from "./MainFrame";
 import MainLoader from "../MainLoader";
 import ApprovedItems from "../pages/ApprovedItems";
+import EditProfile from "../pages/EditProfile";
 
 type RouterRoute = {
   path: string,
@@ -21,15 +22,19 @@ type RouterRoute = {
 const authRoutes: Array<RouterRoute> = [
   {
     path: '/about',
-    component: <About/>
+    component: <About />
   },
   {
     path: '/',
-    component: <Home/>
+    component: <Home />
   },
   {
     path: '/approved-items',
-    component: <ApprovedItems/>
+    component: <ApprovedItems />
+  },
+  {
+    path: '/edit-profile',
+    component: <EditProfile />
   },
 ];
 
