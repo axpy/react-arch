@@ -1,5 +1,6 @@
 import { UserInfo } from "../models/UserModels";
 import { UserRepository } from "../repositories";
+import { UserStorageService } from "./AuthStorageService";
 
 export interface UserService {
   getUserInfo(): Promise<UserInfo | Error>;
@@ -7,22 +8,19 @@ export interface UserService {
 
 export class UserServiceImpl {
   private userRepository: UserRepository;
+  private userStorageService: UserStorageService;
 
-  constructor(userRepository: UserRepository) {
+  constructor(userStorageService: UserStorageService, userRepository: UserRepository) {
+    this.userStorageService = userStorageService;
     this.userRepository = userRepository;
   }
 
   async getUserInfo(): Promise<UserInfo | Error> {
-    // let userInfo = this.userStorageService.getUserInfo();
-    
-    return await this.userRepository.getUserInfo();
+    const userInfo =  await this.userRepository.getUserInfo();
+    if (!(userInfo instanceof Error)) {
+      this.userStorageService.setUserInfo(userInfo);
+    }
 
-    // if (!userInfo) {
-    //   if (error) {
-    //     return error;
-    //   }
-    // }
-
-    // return userInfo;
+    return userInfo;
   }
 }

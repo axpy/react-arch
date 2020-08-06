@@ -4,7 +4,7 @@ export interface UserState {
   userInfo: UserInfo | null
 }
 
-export const SET_USER_INFO = 'SET_USER_INFO'
+export const SET_USER_INFO = '@@user/SET_USER_INFO'
 
 interface SetUserInfoAction {
   type: typeof SET_USER_INFO
