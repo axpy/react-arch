@@ -1,4 +1,3 @@
-import { AbstractService } from "./AbstractService";
 import { ApprovedItemsRepository } from "../repositories/ApprovedItemsRepository";
 import { ApprovedItemsCategory, ApprovedItemsItem } from "../models/ApprovedItemsModels";
 import { store } from "../store";
@@ -10,16 +9,18 @@ export interface ApprovedItemsService {
   getItemsByCategory(categoryId: string): Promise<Array<ApprovedItemsItem>>;
 }
 
-export class ApprovedItemsServiceImpl extends AbstractService implements ApprovedItemsService{
+export class ApprovedItemsServiceImpl implements ApprovedItemsService{
   private approvedItemsRepository: ApprovedItemsRepository;
 
   constructor(approvedItemsRepository: ApprovedItemsRepository) {
-    super();
     this.approvedItemsRepository = approvedItemsRepository;
   }
 
   async getAllCategories() {
     try {
+      // TODO: Move to ApprovedItemsStorageService 
+      // Wrap into dispatch helper function to reduce boilerplate code
+      // e.g: return approvedItemsStorageService.add(this.approvedItemsRepository.fetchAllCategories)
       store.dispatch(setCategoriesFetchState({...defaultCategoriesFetchState, isLoading: true}));
       const categories = await this.approvedItemsRepository.fetchAllCategories();
       store.dispatch(setCategories(categories));
